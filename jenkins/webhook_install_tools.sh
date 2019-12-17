@@ -18,12 +18,13 @@ echo -------------------------------
 
 export VIRTUALENV='../.venv'
 if [ ! -d $VIRTUALENV ]; then
+	echo 'creating virtual environment ----------------------------------------------'
         virtualenv $VIRTUALENV;
+	cd .. # this is a temporary hack
+	pip install ephemeris
+	cd workspace
 fi
 . $VIRTUALENV/bin/activate
-cd .. # this is a temporary hack
-pip install ephemeris
-cd workspace
 get-tool-list -g $GALAXY_URL -a $GALAXY_API_KEY -o installed_tools.yml
 python scripts/install_added_tools.py
 #shed-tools install -g $GALAXY_URL -a $GALAXY_API_KEY -t $TOOL_FILE_PATH -v
