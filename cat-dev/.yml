@@ -1,0 +1,13 @@
+tools:
+- name: velvetoptimiser
+  owner: simon-gladman
+  revisions:
+  - 37d88f41c810
+  tool_panel_section_label: ''
+  tool_shed_url: toolshed.g2.bx.psu.edu
+- name: spades
+  owner: nml
+  revisions:
+  - b8c00ce5dfa0
+  tool_panel_section_label: ''
+  tool_shed_url: toolshed.g2.bx.psu.edu
