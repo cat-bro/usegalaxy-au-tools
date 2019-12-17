@@ -26,6 +26,7 @@ if [ ! -d $VIRTUALENV ]; then
 fi
 . $VIRTUALENV/bin/activate
 # get-tool-list -g $GALAXY_URL -a $GALAXY_API_KEY -o installed_tools.yml
+chmod a+x scripts/install_added_tools.py
 python scripts/install_added_tools.py -g $GALAXY_URL -a $GALAXY_API_KEY -d $LOCAL_TOOL_DIR
 #shed-tools install -g $GALAXY_URL -a $GALAXY_API_KEY -t $TOOL_FILE_PATH -v
 #rm -rf $AU_TOOL_DIR
