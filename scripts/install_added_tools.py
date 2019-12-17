@@ -65,5 +65,5 @@ if not tools_to_install:
     print('No new tools to install')
 else:
     with open(galaxy_tools_install_file, 'w') as installfile:
-        installfile.write(yaml.parse(tools_to_install))
-    os.system('shed-tools -g %s -a %s -o %s -t %s -v' % (galaxy_server, api_key, galaxy_tools_install_file))
+        installfile.write(yaml.dump({'tools': tools_to_install}))
+    os.system('shed-tools install -g %s -a %s -t %s -v' % (galaxy_server, api_key, galaxy_tools_install_file))
