@@ -1,3 +1,2 @@
 echo $TRAVIS_COMMIT_RANGE
-echo 'hi'
-exit 1
+echo 'hi cat'
