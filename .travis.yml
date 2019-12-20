@@ -1,2 +1,2 @@
 before_install:
-  - script: scripts/travis.sh
+  - echo 'first travis script'
