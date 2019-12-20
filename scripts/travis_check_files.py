@@ -10,4 +10,4 @@ files = args.files
 loaded_ymls = []
 for file in files:
     with open(file) as file_in:
-        loaded_ymls.append(yaml.safe_load(file_in.read()))
+        loaded_ymls.append(yaml.safe_load(file_in.read())) #############

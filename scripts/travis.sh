@@ -1,5 +1,5 @@
 echo $TRAVIS_COMMIT_RANGE
-echo git diff $TRAVIS_COMMIT_RANGE
+echo git diff --name-only HEAD...$TRAVIS_BRANCH
 # echo 'hi cat'
 #
 # if [ ! $TRAVIS_PULL_REQUEST ]; then
