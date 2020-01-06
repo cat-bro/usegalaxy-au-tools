@@ -3,20 +3,28 @@
 # echo 'hi cat'
 #
 
-jenkins_dirs=$('galaxy-aust-staging' 'galaxy-aust-dev' 'usegalaxy.org.au' 'cat-dev')  #this is not very satisfying for the regex matching
+# jenkins_dirs=$('galaxy-aust-staging' 'usegalaxy.org.au' 'cat-dev' 'galaxy-cat')  # TODO when using on galaxy staging and production, comment out this line in favour of he on
+# jenkins_dirs=$('galaxy-aust-staging' 'usegalaxy.org.au' 'cat-dev' 'galaxy-cat')
+
+STAGING_DIR='galaxy-cat'  # TODO: when using this in production swap this to 'galaxy-aust-staging' (commented out below)
+PRODUCTION_DIR='cat-dev'  # TODO: when using this in production swap this to 'usegalaxy.org.au' (commented out below)
+
+# STAGING_DIR='galaxy-aust-staging'
+# PRODUCTION_DIR='usegalaxy.org.au'
 
 if [ ! $TRAVIS_PULL_REQUEST ]; then
   exit 0;
 fi
 
 # check the range of the commit input_file_paths
-$CHANGED_FILES=$(git diff --name-only HEAD...$TRAVIS_BRANCH | cat)
-$REQUEST_FILES=$($CHANGED_FILES | grep "^requests\/[^\/]*$")
+CHANGED_FILES=$(git diff --name-only HEAD...$TRAVIS_BRANCH | cat)
+REQUEST_FILES=$($CHANGED_FILES | grep "^requests\/[^\/]*$")
+JENKINS_CONTROLLED_FILES=$($CHANGED_FILES | grep "^(?:\$STAGING_DIR\/|PRODUCTION_DIR\/).*/")
 # $JENKINS_CONTROLLED_FILES=$($CHANGED_FILES | grep "^requests\/[^\/]*$")
 $(cat $CHANGED_FILES | grep "^requests\/[^\/]*$")
 
 if [ $JENKINS_CONTROLLED_FILES ]; then
-  echo 'Files within $jenkins_dirs are written by Jenkins and cannot be altered';
+  echo 'Files within $PRODUCTION_DIR or $STAGING_DIR are written by Jenkins and cannot be altered';
   exit 1;
 fi
 
