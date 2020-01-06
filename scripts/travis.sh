@@ -12,7 +12,9 @@ if [ ! $TRAVIS_PULL_REQUEST ]; then
 fi
 
 # check the range of the commit input_file_paths
-CHANGED_FILES=$(git diff --name-only $TRAVIS_BRANCH master)
+echo $TRAVIS_BRANCH
+echo $TRAVIS_PULL_REQUEST_BRANCH
+CHANGED_FILES=$(git diff --name-only $TRAVIS_PULL_REQUEST_BRANCH $TRAVIS_BRANCH)
 echo ________________
 echo $CHANGED_FILES
 echo ________________
