@@ -18,6 +18,9 @@ fi
 
 # check the range of the commit input_file_paths
 CHANGED_FILES=$(git diff --name-only HEAD...$TRAVIS_BRANCH | cat)
+echo ________________
+echo $CHANGED_FILES
+echo ________________
 REQUEST_FILES=$($CHANGED_FILES | grep "^requests\/[^\/]*$")
 JENKINS_CONTROLLED_FILES=$($CHANGED_FILES | grep "^(?:\$STAGING_DIR\/|PRODUCTION_DIR\/).*/")
 # $JENKINS_CONTROLLED_FILES=$($CHANGED_FILES | grep "^requests\/[^\/]*$")
