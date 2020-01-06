@@ -1,4 +1,6 @@
 language: python
 script: scripts/travis.sh
+notifications:
+  email: false
 # before_install:
 #   - echo 'first travis script'

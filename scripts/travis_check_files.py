@@ -10,4 +10,9 @@ files = args.files
 loaded_ymls = []
 for file in files:
     with open(file) as file_in:
-        loaded_ymls.append(yaml.safe_load(file_in.read())) #############
+        try:
+            loaded_ymls.append(yaml.safe_load(file_in.read())) #############
+        except: #whatever happens when you get bad yaml
+            return
+    if valid_yaml_check_only:
+        return 'OK'

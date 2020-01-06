@@ -16,17 +16,31 @@ echo GALAXY_API_KEY = $GALAXY_API_KEY
 echo TOOL_FILE_PATH = $TOOL_FILE_PATH
 echo -------------------------------
 
+$REQUESTS_DIFF=$(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only requests/ | cat | grep "^requests\/[^\/]*$")
+
+if [ ! $REQUESTS_DIFF ]; then
+	echo 'No difference in in files in watched path, no tool installation required';
+	exit 1;
+else
+	echo 'Tools from the following files will be installed';
+	echo $REQUESTS_DIFF;
+fi
+
+# Virtual environment in build directory has ephemeris and bioblend installed.
+# If this script is being run for the first time we will need to set up the
+# virtual environment
 export VIRTUALENV='../.venv'
 if [ ! -d $VIRTUALENV ]; then
 	echo 'creating virtual environment ----------------------------------------------'
         virtualenv $VIRTUALENV;
 	cd .. # this is a temporary hack
 	pip install ephemeris
+	pip install bioblend
 	cd workspace
 fi
 . $VIRTUALENV/bin/activate
 # get-tool-list -g $GALAXY_URL -a $GALAXY_API_KEY -o installed_tools.yml
-chmod a+x scripts/install_added_tools.py
-python scripts/install_added_tools.py -g $GALAXY_URL -a $GALAXY_API_KEY -d $LOCAL_TOOL_DIR
+chmod +x scripts/install_added_tools.py
+python scripts/install_added_tools.py -g $GALAXY_URL -a $GALAXY_API_KEY -d $LOCAL_TOOL_DIR -f $(tr '\n' ' ' < $REQUESTS_DIFF)
 #shed-tools install -g $GALAXY_URL -a $GALAXY_API_KEY -t $TOOL_FILE_PATH -v
 #rm -rf $AU_TOOL_DIR
