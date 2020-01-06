@@ -1,0 +1,4 @@
+tools:
+- name: hisat2
+  owner: iuc
+  tool_panel_section_label: RNA Analysis
