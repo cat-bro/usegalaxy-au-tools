@@ -1,10 +1,5 @@
 # echo $TRAVIS_COMMIT_RANGE
 # echo $(git diff --name-only HEAD...$TRAVIS_BRANCH | cat)
-# echo 'hi cat'
-#
-
-# jenkins_dirs=$('galaxy-aust-staging' 'usegalaxy.org.au' 'cat-dev' 'galaxy-cat')  # TODO when using on galaxy staging and production, comment out this line in favour of he on
-# jenkins_dirs=$('galaxy-aust-staging' 'usegalaxy.org.au' 'cat-dev' 'galaxy-cat')
 
 STAGING_DIR='galaxy-cat'  # TODO: when using this in production swap this to 'galaxy-aust-staging' (commented out below)
 PRODUCTION_DIR='cat-dev'  # TODO: when using this in production swap this to 'usegalaxy.org.au' (commented out below)
