@@ -22,7 +22,7 @@ echo '0B'
 echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only | cat | grep "^requests\/[^\/]*$")
 
 echo '0C'
-echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=A)
+echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=A | cat)
 echo '0D'
 echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=D)
 
