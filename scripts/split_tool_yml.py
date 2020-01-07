@@ -48,6 +48,15 @@ def main():
     categories = defaultdict(list)
 
     for tool in tools:
+        if not tool['tool_panel_section_label']:
+            continue  # TODO log a warning about installed tools with blank section labels
+        if 'tool_panel_section_id' in tool.keys():
+            # take out the section id
+            # we want to be able to reinstall using these files if necessary
+            # in shed_tools installation process both section_label and section_id cannot be defined
+            # having both of these in the yml causes both values to be blank in installed package
+            # TODO: see if this can be fixed in ephemeris package
+            del tool['tool_panel_section_id']
         categories[tool['tool_panel_section_label']].append(tool)
 
     for cat in categories:
