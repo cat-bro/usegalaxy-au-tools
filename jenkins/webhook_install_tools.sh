@@ -48,6 +48,6 @@ fi
 chmod +x scripts/install_added_tools.py
 INSTALL_STAGING_RESULT=(python scripts/install_added_tools.py -g $STAGING_URL -a $STAGING_API_KEY -d $LOCAL_TOOL_DIR -f $(tr '\n' ' ' < $REQUESTS_DIFF))
 
-if [ $INSTALL_STAGING_RESULT = 'OK' ]; then
+#if [ $INSTALL_STAGING_RESULT = 'OK' ]; then
 #shed-tools install -g $GALAXY_URL -a $GALAXY_API_KEY -t $TOOL_FILE_PATH -v
 #rm -rf $AU_TOOL_DIR
