@@ -10,9 +10,6 @@ if [ ! -d LOG_DIR ]; then
 fi
 LOG_FILE=$LOG_DIR/webhook_tool_installation_$(date '+%Y%m%d%H%M%S')
 
-GIT_PREVIOUS_COMMIT=$(HEAD~1)
-GIT_COMMIT=$(HEAD~0)
-
 # echo 'GIT DIFF'
 # git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only
 
@@ -30,14 +27,14 @@ echo '0D'
 echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=D)
 
 echo '1 A pc c'
-git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=A  | cat | grep "^requests\/[^\/]*$"
+echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=A  | cat | grep "^requests\/[^\/]*$")
 echo '2 D pc c'
-git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=D | cat | grep "^requests\/[^\/]*$"
+echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=D | cat | grep "^requests\/[^\/]*$")
 
 echo '3 A c pc'
-git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT --name-only --diff-filter=A | cat | grep "^requests\/[^\/]*$"
+echo $(git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT --name-only --diff-filter=A | cat | grep "^requests\/[^\/]*$")
 echo '4 D c pc'
-git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT  --name-only --diff-filter=D | cat | grep "^requests\/[^\/]*$"
+echo $(git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT  --name-only --diff-filter=D | cat | grep "^requests\/[^\/]*$")
 
 
 export REQUESTS_DIFF=$(git diff --name-only --diff-filter=A $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep "^requests\/[^\/]*$")
