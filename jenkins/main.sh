@@ -10,8 +10,8 @@ if [ ! -d LOG_DIR ]; then
 fi
 LOG_FILE=$LOG_DIR/webhook_tool_installation_$(date '+%Y%m%d%H%M%S')
 
-# echo 'GIT DIFF'
-# git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only
+echo 'GIT DIFF'
+git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only
 
 # First check whether changed files are in the path of tool requests.
 # If so, we run the install script.  If not, exit 1.

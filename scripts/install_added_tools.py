@@ -44,11 +44,11 @@ try:
     os.system('shed-tools install -g %s -a %s -t %s -v &> %s' % (galaxy_server, api_key, galaxy_tools_install_file, shed_tools_log))
     with open(shed_tools_log) as log_file:
         logger.info(log_file.read())
-    return 'OK'
+    # return 'OK'  # TODO: def main
 except:
     error = sys.exc_info()[0]
     print("Unexpected error: ", error)
-    return error
+    # return error
     # raise
 
 # command = 'get-tool-list --get_data_managers --include_tool_panel_id -g %s -a %s -o %s' % (galaxy_server, api_key, galaxy_tools_output)
