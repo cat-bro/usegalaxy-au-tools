@@ -19,6 +19,8 @@ echo PRODUCTION_API_KEY = $PRODUCTION_API_KEY
 echo TOOL_FILE_PATH = $TOOL_FILE_PATH
 echo -------------------------------
 
+echo $REQUESTS_DIFF
+
 # $REQUESTS_DIFF=$(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only requests/ | cat | grep "^requests\/[^\/]*$")
 #
 # if [ ! $REQUESTS_DIFF ]; then

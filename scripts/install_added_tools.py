@@ -3,6 +3,9 @@
 import yaml
 import argparse
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 # def main():
 #
@@ -20,16 +23,33 @@ galaxy_server = args.galaxy_server
 api_key = args.api_key
 input_file_paths = args.files
 # dir = args.directory
-galaxy_tools_install_file = 'tools_to_install.yml'
+# galaxy_tools_install_file = 'tools_to_install.yml'
 galaxy_tools_output = 'installed_tools.yml'
+shed_tools_log = 'tmp/shed_tools_install_output.txt'
 
 print(input_file_paths)
 
-# try:
-#     # shed-tools install
-#     # return 'OK'
-# except:
-#     # return error message
+tools_to_install = []
+
+for file in files:
+    with open(file) as input:
+        content = yaml.safe_load(input.read())
+        # if isinstance(content, list):
+        tools_to_install += content['tools']
+        # else:
+        #     repository_state.append(content)
+
+
+try:
+    os.system('shed-tools install -g %s -a %s -t %s -v &> %s' % (galaxy_server, api_key, galaxy_tools_install_file, shed_tools_log))
+    with open(shed_tools_log) as log_file:
+        logger.info(log_file.read())
+    return 'OK'
+except:
+    error = sys.exc_info()[0]
+    print("Unexpected error: ", error)
+    return error
+    # raise
 
 # command = 'get-tool-list --get_data_managers --include_tool_panel_id -g %s -a %s -o %s' % (galaxy_server, api_key, galaxy_tools_output)
 # os.system(command)
