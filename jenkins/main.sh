@@ -16,7 +16,7 @@ LOG_FILE=$LOG_DIR/webhook_tool_installation_$(date '+%Y%m%d%H%M%S')
 # First check whether changed files are in the path of tool requests.
 # If so, we run the install script.  If not, exit 1.
 # export CHANGED_FILES=$(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only | cat)
-export REQUESTS_DIFF=$(git diff --name-only --diff_filter=a $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep "^requests\/[^\/]*$")
+export REQUESTS_DIFF=$(git diff --name-only --diff_filter=a $GIT_COMMIT $GIT_PREVIOUS_COMMIT | cat | grep "^requests\/[^\/]*$")
 
 #echo 'Changes have been made to the following files:'
 #echo $CHANGED_FILES
