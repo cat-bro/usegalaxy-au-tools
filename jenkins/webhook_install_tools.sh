@@ -18,15 +18,15 @@ echo GALAXY_API_KEY = $GALAXY_API_KEY
 echo TOOL_FILE_PATH = $TOOL_FILE_PATH
 echo -------------------------------
 
-$REQUESTS_DIFF=$(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only requests/ | cat | grep "^requests\/[^\/]*$")
-
-if [ ! $REQUESTS_DIFF ]; then
-	echo 'No difference in files in watched path, no tool installation required';
-	exit 1;
-else
-	echo 'Tools from the following files will be installed';
-	echo $REQUESTS_DIFF;
-fi
+# $REQUESTS_DIFF=$(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only requests/ | cat | grep "^requests\/[^\/]*$")
+#
+# if [ ! $REQUESTS_DIFF ]; then
+# 	echo 'No difference in files in watched path, no tool installation required';
+# 	exit 1;
+# else
+# 	echo 'Tools from the following files will be installed';
+# 	echo $REQUESTS_DIFF;
+# fi
 
 # Virtual environment in build directory has ephemeris and bioblend installed.
 # If this script is being run for the first time we will need to set up the
