@@ -16,27 +16,27 @@ LOG_FILE=$LOG_DIR/webhook_tool_installation_$(date '+%Y%m%d%H%M%S')
 # First check whether changed files are in the path of tool requests.
 # If so, we run the install script.  If not, exit 1.
 # export CHANGED_FILES=$(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only | cat)
-echo '0A'
-echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only)
-echo '0B'
-echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only | cat | grep "^requests\/[^\/]*$")
-
-echo '0C'
-echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=A | cat)
-echo '0D'
-echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=D)
-
-echo '1 A pc c'
-echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=A  | cat | grep "^requests\/[^\/]*$")
-echo '2 D pc c'
-echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=D | cat | grep "^requests\/[^\/]*$")
-
-echo '3 A c pc'
-echo $(git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT --name-only --diff-filter=A | cat | grep "^requests\/[^\/]*$")
-echo '4 D c pc'
-echo $(git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT  --name-only --diff-filter=D | cat | grep "^requests\/[^\/]*$")
-
-
+# echo '0A'
+# echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only)
+# echo '0B'
+# echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only | cat | grep "^requests\/[^\/]*$")
+#
+# echo '0C'
+# echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=A | cat)
+# echo '0D'
+# echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=D)
+#
+# echo '1 A pc c'
+# echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=A  | cat | grep "^requests\/[^\/]*$")
+# echo '2 D pc c'
+# echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=D | cat | grep "^requests\/[^\/]*$")
+#
+# echo '3 A c pc'
+# echo $(git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT --name-only --diff-filter=A | cat | grep "^requests\/[^\/]*$")
+# echo '4 D c pc'
+# echo $(git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT  --name-only --diff-filter=D | cat | grep "^requests\/[^\/]*$")
+#
+#
 export REQUESTS_DIFF=$(git diff --name-only --diff-filter=A $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep "^requests\/[^\/]*$")
 
 #echo 'Changes have been made to the following files:'
