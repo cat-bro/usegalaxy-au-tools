@@ -21,18 +21,18 @@ echo $(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT)
 echo '0B'
 echo $(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep "^requests\/[^\/]*$")
 
-echo '1 a pc c'
-echo $(git diff --name-only --diff_filter=a  $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep "^requests\/[^\/]*$")
-echo '2 d pc c'
-echo $(git diff --name-only --diff_filter=d  $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep "^requests\/[^\/]*$")
+echo '1 A pc c'
+echo $(git diff --name-only --diff_filter=A  $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep "^requests\/[^\/]*$")
+echo '2 D pc c'
+echo $(git diff --name-only --diff_filter=D  $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep "^requests\/[^\/]*$")
 
-echo '3 a c pc'
-echo $(git diff --name-only --diff_filter=a  $GIT_COMMIT $GIT_PREVIOUS_COMMIT | cat | grep "^requests\/[^\/]*$")
-echo '4 d c pc'
-echo $(git diff --name-only --diff_filter=d  $GIT_COMMIT $GIT_PREVIOUS_COMMIT | cat | grep "^requests\/[^\/]*$")
+echo '3 A c pc'
+echo $(git diff --name-only --diff_filter=A  $GIT_COMMIT $GIT_PREVIOUS_COMMIT | cat | grep "^requests\/[^\/]*$")
+echo '4 D c pc'
+echo $(git diff --name-only --diff_filter=D  $GIT_COMMIT $GIT_PREVIOUS_COMMIT | cat | grep "^requests\/[^\/]*$")
 
 
-export REQUESTS_DIFF=$(git diff --name-only --diff_filter=a $GIT_COMMIT $GIT_PREVIOUS_COMMIT | cat | grep "^requests\/[^\/]*$")
+export REQUESTS_DIFF=$(git diff --name-only --diff_filter=A $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep "^requests\/[^\/]*$")
 
 #echo 'Changes have been made to the following files:'
 #echo $CHANGED_FILES
