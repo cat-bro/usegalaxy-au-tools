@@ -4,7 +4,7 @@ echo --------------------------
 AU_TOOLS_DIR=usegalaxy-au-tools
 #export AU_TOOLS_GIT=git@github.com:cat-bro/$AU_TOOLS_DIR.git
 
-STAGING_URL=https://galaxy-cat.genome.edu.au
+STAGING_URL=https://galaxy-cat.genome.edu.au ##
 PRODUCTION_URL=https://cat-dev.genome.edu.au
 LOCAL_TOOL_DIR=cat-dev
 TOOL_FILE_PATH=$AU_TOOLS_DIR/galaxy-aust-dev/graphdisplay_data.yml
