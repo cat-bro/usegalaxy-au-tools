@@ -27,14 +27,14 @@ echo '0D'
 echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff-filter=D)
 
 echo '1 A pc c'
-echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff_filter=A  | cat | grep "^requests\/[^\/]*$")
+git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff_filter=A  | cat | grep "^requests\/[^\/]*$"
 echo '2 D pc c'
-echo $(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff_filter=D | cat | grep "^requests\/[^\/]*$")
+git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only --diff_filter=D | cat | grep "^requests\/[^\/]*$"
 
 echo '3 A c pc'
-echo $(git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT --name-only --diff_filter=A | cat | grep "^requests\/[^\/]*$")
+git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT --name-only --diff_filter=A | cat | grep "^requests\/[^\/]*$"
 echo '4 D c pc'
-echo $(git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT  --name-only --diff_filter=D | cat | grep "^requests\/[^\/]*$")
+git diff $GIT_COMMIT $GIT_PREVIOUS_COMMIT  --name-only --diff_filter=D | cat | grep "^requests\/[^\/]*$"
 
 
 export REQUESTS_DIFF=$(git diff --name-only --diff_filter=A $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep "^requests\/[^\/]*$")
