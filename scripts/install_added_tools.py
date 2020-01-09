@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import yaml
 import argparse
 import os
@@ -23,21 +21,24 @@ galaxy_server = args.galaxy_server
 api_key = args.api_key
 input_file_paths = args.files
 # dir = args.directory
-# galaxy_tools_install_file = 'tools_to_install.yml'
+galaxy_tools_install_file = 'tmp/tools_to_install.yml'
 galaxy_tools_output = 'installed_tools.yml'
 shed_tools_log = 'tmp/shed_tools_install_output.txt'
 
-print(input_file_paths)
+print('input_file_paths: ', input_file_paths)
 
 tools_to_install = []
 
-for file in files:
+for file in input_file_paths:
     with open(file) as input:
         content = yaml.safe_load(input.read())
         # if isinstance(content, list):
         tools_to_install += content['tools']
         # else:
         #     repository_state.append(content)
+
+with open(galaxy_tools_install_file, 'w') as installfile:
+    installfile.write(yaml.dump({'tools': tools_to_install}))
 
 
 try:

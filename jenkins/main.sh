@@ -1,5 +1,7 @@
 chmod +x jenkins/webhook_install_tools.sh
 
+python aaa.py
+
 install_tools() {
 	export LOG_DIR=~/galaxy_tool_automation
 	if [ ! -d LOG_DIR ]; then
@@ -26,7 +28,7 @@ install_tools() {
 		echo $REQUESTS_DIFF;
 	fi
 
-	echo 'Saving output to $LOG_FILE'
+	echo Saving output to $LOG_FILE
 	if [ $LOCAL_ENV = 0 ]; then
 		bash jenkins/webhook_install_tools.sh &> $LOG_FILE
 		cat $LOG_FILE

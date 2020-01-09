@@ -6,7 +6,8 @@ AU_TOOLS_DIR=usegalaxy-au-tools
 
 STAGING_URL=https://galaxy-cat.genome.edu.au ##
 PRODUCTION_URL=https://cat-dev.genome.edu.au
-LOCAL_TOOL_DIR=cat-dev
+STAGING_TOOL_DIR=galaxy-cat
+PRODUCTION_TOOL_DIR=cat-dev
 TOOL_FILE_PATH=$AU_TOOLS_DIR/galaxy-aust-dev/graphdisplay_data.yml
 
 echo Using variables
@@ -34,19 +35,32 @@ echo $REQUESTS_DIFF
 # Virtual environment in build directory has ephemeris and bioblend installed.
 # If this script is being run for the first time we will need to set up the
 # virtual environment
-VIRTUALENV='../.venv'
-if [ ! -d $VIRTUALENV ]; then
-	echo 'creating virtual environment ----------------------------------------------'
-        virtualenv $VIRTUALENV;
-	cd .. # this is a temporary hack
-	pip install ephemeris
-	pip install bioblend
-	cd workspace
+if [ $LOCAL_ENV = 0 ]; then
+	VIRTUALENV='../.venv'
+	if [ ! -d $VIRTUALENV ]; then
+		echo 'creating virtual environment ----------------------------------------------'
+	        virtualenv $VIRTUALENV;
+		cd .. # this is a temporary hack
+		pip install ephemeris
+		pip install bioblend
+		cd workspace
+	fi
+	. $VIRTUALENV/bin/activate
 fi
-. $VIRTUALENV/bin/activate
 # get-tool-list -g $STAGING_URL -a $GALAXY_API_KEY -o installed_tools.yml
 chmod +x scripts/install_added_tools.py
-INSTALL_STAGING_RESULT=$(python scripts/install_added_tools.py -g $STAGING_URL -a $STAGING_API_KEY -d $LOCAL_TOOL_DIR -f $(tr '\n' ' ' < $REQUESTS_DIFF))
+echo $REQUESTS_DIFF
+echo $(tr '\n' ' ' < $REQUESTS_DIFF)
+FILE_ARGS=$REQUESTS_DIFF
+if [ ! -f $REQUESTS_DIFF ]; then
+	FILE_ARGS=$(tr '\n' ' ' < $REQUESTS_DIFF)
+fi
+
+# INSTALL_STAGING_RESULT=$(python scripts/install_added_tools.py -g $STAGING_URL -a $STAGING_API_KEY -f $(tr '\n' ' ' < $REQUESTS_DIFF))
+python scripts/install_added_tools.py -g $STAGING_URL -a $STAGING_API_KEY -f $FILE_ARGS
+# # python aaa.py
+# which python
+# python scripts/install_added_tools.py
 
 #if [ $INSTALL_STAGING_RESULT = 'OK' ]; then
 #shed-tools install -g $GALAXY_URL -a $GALAXY_API_KEY -t $TOOL_FILE_PATH -v
