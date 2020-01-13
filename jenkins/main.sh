@@ -1,7 +1,5 @@
 chmod +x jenkins/webhook_install_tools.sh
 
-python aaa.py
-
 install_tools() {
 	export LOG_DIR=~/galaxy_tool_automation
 	if [ ! -d LOG_DIR ]; then
