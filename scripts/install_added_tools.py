@@ -37,9 +37,9 @@ def main():
 
     # (1) Install tool on staging server
 
-    command = 'shed-tools install -g %s -a %s -t %s -v &> %s' % (galaxy_server, api_key, galaxy_tools_install_file, shed_tools_log)
+    command = 'shed-tools install -g %s -a %s -t %s -v --log_file  %s' % (galaxy_server, api_key, galaxy_tools_install_file, shed_tools_log)
     sys.stderr.write(command + '\n')
-    os.system('shed-tools install -g %s -a %s -t %s -v &> %s' % (galaxy_server, api_key, galaxy_tools_install_file, shed_tools_log))
+    os.system('shed-tools install -g %s -a %s -t %s -v --log_file  %s' % (galaxy_server, api_key, galaxy_tools_install_file, shed_tools_log))
     with open(shed_tools_log) as log_file:
         sys.stderr.write(log_file.read())
     result = verify_shed_tools_installation(shed_tools_log)
@@ -56,7 +56,7 @@ def main():
     with open(galaxy_tools_install_file) as oops: # TODO This is no good
         owner = yaml.safe_load(oops.read())['tools'][0]['owner']
     os.system(
-        'shed-tools test -g %s -a %s --name %s --owner %s --test_json %s -v &> %s' %
+        'shed-tools test -g %s -a %s --name %s --owner %s --test_json %s -v --log_file %s' %
         (galaxy_server, api_key, result['name'], owner, shed_tools_test_json, shed_tools_test_log)
     )
     with open(shed_tools_test_log) as log_file:
