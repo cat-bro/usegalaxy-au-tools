@@ -28,6 +28,9 @@ def main():
     shed_tools_test_log = 'tmp/shed_tools_test_output.txt'
     shed_tools_test_json = 'tmp/shed_tools_test.json'
 
+    for file in [shed_tools_log, shed_tools_test_log, shed_tools_test_json]:
+        os.system('rm %s' % file)  # TODO move this to the end of the script
+
     if len(input_file_paths) == 1:
         [galaxy_tools_install_file] = input_file_paths
     else:
@@ -37,9 +40,12 @@ def main():
 
     # (1) Install tool on staging server
 
-    command = 'shed-tools install -g %s -a %s -t %s -v --log_file  %s' % (galaxy_server, api_key, galaxy_tools_install_file, shed_tools_log)
+    command = (
+        'shed-tools install -g %s -a %s -t %s -v --log_file %s --skip_install_resolver_dependencies False --skip_install_repository_dependencies False' %
+        (galaxy_server, api_key, galaxy_tools_install_file, shed_tools_log)
+    )
     sys.stderr.write(command + '\n')
-    os.system('shed-tools install -g %s -a %s -t %s -v --log_file  %s' % (galaxy_server, api_key, galaxy_tools_install_file, shed_tools_log))
+    os.system(command)
     with open(shed_tools_log) as log_file:
         sys.stderr.write(log_file.read())
     result = verify_shed_tools_installation(shed_tools_log)
