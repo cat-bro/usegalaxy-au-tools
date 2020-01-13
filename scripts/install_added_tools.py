@@ -41,7 +41,7 @@ def main():
     # (1) Install tool on staging server
 
     command = (
-        'shed-tools install -g %s -a %s -t %s -v --log_file %s --skip_install_resolver_dependencies False --skip_install_repository_dependencies False' %
+        'shed-tools install -g %s -a %s -t %s -v --log_file %s --install_resolver_dependencies' %
         (galaxy_server, api_key, galaxy_tools_install_file, shed_tools_log)
     )
     sys.stderr.write(command + '\n')
