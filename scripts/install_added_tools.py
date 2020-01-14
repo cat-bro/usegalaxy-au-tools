@@ -28,9 +28,6 @@ def main():
     shed_tools_test_log = 'tmp/shed_tools_test_output.txt'
     shed_tools_test_json = 'tmp/shed_tools_test.json'
 
-    for file in [shed_tools_log, shed_tools_test_log, shed_tools_test_json]:
-        os.system('rm %s' % file)  # TODO move this to the end of the script
-
     if len(input_file_paths) == 1:
         [galaxy_tools_install_file] = input_file_paths
     else:
@@ -41,7 +38,7 @@ def main():
     # (1) Install tool on staging server
 
     command = (
-        'shed-tools install -g %s -a %s -t %s -v --log_file %s --install_resolver_dependencies' %
+        'shed-tools install -g %s -a %s -t %s -v &> %s' %
         (galaxy_server, api_key, galaxy_tools_install_file, shed_tools_log)
     )
     sys.stderr.write(command + '\n')
@@ -62,7 +59,7 @@ def main():
     with open(galaxy_tools_install_file) as oops: # TODO This is no good
         owner = yaml.safe_load(oops.read())['tools'][0]['owner']
     os.system(
-        'shed-tools test -g %s -a %s --name %s --owner %s --test_json %s -v --log_file %s' %
+        'shed-tools test -g %s -a %s --name %s --owner %s --test_json %s -v &> %s' %
         (galaxy_server, api_key, result['name'], owner, shed_tools_test_json, shed_tools_test_log)
     )
     with open(shed_tools_test_log) as log_file:
