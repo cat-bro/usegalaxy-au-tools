@@ -1,7 +1,7 @@
 import yaml
 
-# stats_file = 'usegalaxy.org.au/statistics.yml'
-stats_file = 'usegalaxy.org.au/assembly.yml'
+stats_file = 'usegalaxy.org.au/statistics.yml'
+# stats_file = 'usegalaxy.org.au/assembly.yml'
 
 tool_yamls=[]
 commands=[]

@@ -1,11 +1,15 @@
+#! /bin/bash
+
 chmod +x jenkins/webhook_install_tools.sh
+
+export=INSTALL_ID=$(date '+%Y%m%d%H%M%S') # this will do for now, could incorporate jenkins build ID or git commit hash
 
 install_tools() {
 	export LOG_DIR=~/galaxy_tool_automation
 	if [ ! -d LOG_DIR ]; then
 		mkdir LOG_DIR
 	fi
-	LOG_FILE=$LOG_DIR/webhook_tool_installation_$(date '+%Y%m%d%H%M%S')
+	LOG_FILE=$LOG_DIR/webhook_tool_installation_$INSTALL_ID
 
 	# echo 'GIT DIFF'
 	# git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only
@@ -19,12 +23,19 @@ install_tools() {
 	#echo $CHANGED_FILES
 
 	if [ ! $REQUESTS_DIFF ]; then
-		echo 'No added files in requests folder, no tool installation required';
-		exit 0;
+		if [ $LOCAL_ENV = 1 ] && [ $SUPPLIED_FILENAME ]; then # if running locally, allow a filename argument
+			echo Running locally, installing $SUPPLIED_FILENAME;
+			export REQUESTS_DIFF=$SUPPLIED_FILENAME;
+		else
+			echo 'No added files in requests folder, no tool installation required';
+			exit 0;
+		fi
 	else
 		echo 'Tools from the following files will be installed';
 		echo $REQUESTS_DIFF;
 	fi
+
+
 
 	echo Saving output to $LOG_FILE
 	if [ $LOCAL_ENV = 0 ]; then
@@ -58,6 +69,13 @@ if [ $LOCAL_ENV = 1 ]; then
 	export $(cat .env)
 	GIT_PREVIOUS_COMMIT=HEAD~1
 	GIT_COMMIT=HEAD
+fi
+
+if [ $LOCAL_ENV = 1 ]; then # if running locally, allow a filename argument
+	echo $@
+	if [ $@ ]; then
+		export SUPPLIED_FILENAME=$@;
+	fi
 fi
 
 if [ $RUN = 1 ]; then
