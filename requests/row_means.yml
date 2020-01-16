@@ -1,5 +1,0 @@
-tools:
-- name: row_means
-  owner: simon-gladman
-  tool_panel_section_label: Statistics
-  tool_shed_url: testtoolshed.g2.bx.psu.edu
