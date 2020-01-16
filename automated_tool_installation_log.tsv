@@ -4,3 +4,4 @@ Jenkins Build Number	Install ID	Log Path	Status	Failing Step	Name
 	20200116111718	/Users/catherine/galaxy_tool_automation/webhook_tool_installation_20200116111718	Errored	Staging Installation	ncbi_blast_plus
 	20200116113251	/Users/catherine/galaxy_tool_automation/webhook_tool_installation_20200116113251	Errored	Staging Installation	ncbi_blast_plus
 	20200116113357	/Users/catherine/galaxy_tool_automation/webhook_tool_installation_20200116113357	Errored	Staging Installation	ncbi_blast_plus
+	20200116114159	/webhook_tool_installation_20200116114159	Errored	Staging Installation	ncbi_blast_plus
