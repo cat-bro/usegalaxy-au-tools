@@ -32,3 +32,4 @@ Jenkins Build Number	Install ID	Log Path	Status	Failing Step	Name
 	20200117094808	/webhook_tool_installation_20200117094808	Skipped	Staging Installation	ncbi_blast_plus
 	20200117094808	/webhook_tool_installation_20200117094808	Skipped	Staging Installation	velvetoptimiser
 	20200117094808	/webhook_tool_installation_20200117094808	Skipped	Staging Installation	velvetoptimiser
+	20200117095357	/webhook_tool_installation_20200117095357	Skipped	Staging Installation	ncbi_blast_plus
