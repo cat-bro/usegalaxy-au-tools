@@ -2,15 +2,20 @@
 
 chmod +x jenkins/webhook_install_tools.sh
 
-export=INSTALL_ID=$(date '+%Y%m%d%H%M%S') # this will do for now, could incorporate jenkins build ID or git commit hash
+export BUILD_NUMBER="$BUILD_NUMBER"
+export GIT_COMMIT="$GIT_COMMIT"
+export GIT_PREVIOUS_COMMIT="$GIT_PREVIOUS_COMMIT"
+export BUILD_NUMBER="$BUILD_NUMBER"
+
+export INSTALL_ID="$(date '+%Y%m%d%H%M%S')" # this will do for now, could incorporate jenkins build ID or git commit hash
+
+# export LOG_DIR=~/galaxy_tool_automation
+if [ ! -d LOG_DIR ]; then
+	mkdir $LOG_DIR
+fi
+export LOG_FILE="$LOG_DIR/webhook_tool_installation_$INSTALL_ID"
 
 install_tools() {
-	export LOG_DIR=~/galaxy_tool_automation
-	if [ ! -d LOG_DIR ]; then
-		mkdir LOG_DIR
-	fi
-	LOG_FILE=$LOG_DIR/webhook_tool_installation_$INSTALL_ID
-
 	# echo 'GIT DIFF'
 	# git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only
 
@@ -63,9 +68,9 @@ else
 		fi
 fi
 
-LOG_DIR=~/galaxy_tool_automation
+export LOG_DIR=~/galaxy_tool_automation
 if [ $LOCAL_ENV = 1 ]; then
-	LOG_DIR=logs
+	export LOG_DIR=logs
 	export $(cat .env)
 	GIT_PREVIOUS_COMMIT=HEAD~1
 	GIT_COMMIT=HEAD
