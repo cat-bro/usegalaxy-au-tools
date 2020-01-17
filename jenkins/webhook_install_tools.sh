@@ -93,7 +93,17 @@ install_tools() {
 		echo -e $LOG_ENTRY
 		echo "=================================================="
 		echo -e $LOG_ENTRY >> $AUTOMATED_TOOL_INSTALLATION_LOG;
-		git commit $AUTOMATED_TOOL_INSTALLATION_LOG -m "$AUTOMATED_TOOL_INSTALLATION_LOG entry for build $BUILD_NUMBER."; git push
+		for FILE_NAME in $(ls $TOOL_FILE_PATH)
+		 	do
+				git add $TOOL_FILE_PATH$FILE_NAME
+			done
+		for FILE_NAME in $REQUESTS_DIFF
+			do
+				git rm $FILE_NAME
+			done
+		COMMIT_MESSAGE="Jenkins build $BUILD_NUMBER."
+		git commit -am $COMMIT_MESSAGE
+		git push
 	fi
 }
 
