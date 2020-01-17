@@ -9,7 +9,7 @@ export LOG_DIR=~/galaxy_tool_automation
 
 # Switch to allow the script to be run locally or remotely at stages of development
 # if RUN_LOCALLY is true, the script will only run where an .env file is present
-RUN_LOCALLY=1 # (1) Disable script on jenkins (0) run script on jenkins
+RUN_LOCALLY=0 # (1) Disable script on jenkins (0) run script on jenkins
 export LOCAL_ENV=0
 RUN=1 # true=1, false=0
 FILE=.env
