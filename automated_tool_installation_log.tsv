@@ -85,3 +85,5 @@ Jenkins Build Number	Install ID	Log Path	Status	Failing Step	Name
 	20200117140100	/webhook_tool_installation_20200117140100	Skipped	Staging Installation	ncbi_blast_plus
 	20200117140100	/webhook_tool_installation_20200117140100	Skipped	Staging Installation	velvetoptimiser
 	20200117140100	/webhook_tool_installation_20200117140100	Skipped	Staging Installation	velvetoptimiser
+192	20200117040431	/var/lib/jenkins/galaxy_tool_automation/webhook_tool_installation_20200117040431	Tests failed	Production Testing	flye
+192	20200117040431	/var/lib/jenkins/galaxy_tool_automation/webhook_tool_installation_20200117040431	Success	Production Testing	flye
