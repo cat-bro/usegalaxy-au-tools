@@ -65,17 +65,19 @@ install_tools() {
 		echo -e "\nInstalling $TOOL_NAME from file $TOOL_FILE"
 		cat $TOOL_FILE
 
-		echo -e "\nStep (1): Installing $TOOL_NAME on staging server";
-		install_tool "STAGING" $TOOL_FILE
-
-		echo -e "\nStep (2): Testing $TOOL_NAME on staging server";
-		test_tool "STAGING" $TOOL_FILE
-
-		echo -e "\nStep (3): Installing $TOOL_NAME on production server";
-		install_tool "PRODUCTION" $TOOL_FILE
-
-		echo -e "\nStep (4): Testing $TOOL_NAME on production server";
-		test_tool "PRODUCTION" $TOOL_FILE
+		{
+			echo -e "\nStep (1): Installing $TOOL_NAME on staging server";
+			install_tool "STAGING" $TOOL_FILE
+		} && {
+			echo -e "\nStep (2): Testing $TOOL_NAME on staging server";
+			test_tool "STAGING" $TOOL_FILE
+		} && {
+			echo -e "\nStep (3): Installing $TOOL_NAME on production server";
+			install_tool "PRODUCTION" $TOOL_FILE
+		} && {
+			echo -e "\nStep (4): Testing $TOOL_NAME on production server";
+			test_tool "PRODUCTION" $TOOL_FILE
+		}
 	done
 
 	# python scripts/split_tool_yml.py
@@ -98,7 +100,8 @@ install_tools() {
 				git rm $FILE_NAME
 			done
 		COMMIT_MESSAGE="Jenkins build $BUILD_NUMBER."
-		git commit -am $COMMIT_MESSAGE
+		git status
+		git commit -a -m $COMMIT_MESSAGE
 		git push
 	fi
 }
@@ -123,13 +126,13 @@ test_tool() {
 		STEP="Production Testing"
 	else
 		echo "First positional argument must be STAGING or PRODUCTION.  Exiting"
-		continue
+		return 1
 	fi
 
 	# TODO it is right to specify revision when running tests?
 	# command="shed-tools test -g $URL -a $API_KEY --name $TOOL_NAME --owner $TOOL_OWNER --revisions $INSTALLED_REVISION --test_json $TEST_JSON -v --log_file $TEST_LOG"
-	command="shed-tools test -g $URL -a $API_KEY -t $TOOL_FILE --test_json $TEST_JSON -v --log_file $TEST_LOG"
-	echo $command
+	command="shed-tools test -g $URL -a $API_KEY -t $TOOL_FILE --parallel_tests 4 --test_json $TEST_JSON -v --log_file $TEST_LOG"
+	echo "${command/$API_KEY/<API_KEY>}"
 	$command
 	echo
 	TESTS_PASSED="$(python scripts/first_match_regex.py -p 'Passed tool tests \((\d+)\)' $TEST_LOG)"
@@ -151,6 +154,7 @@ test_tool() {
 		fi
 		log_row "Tests failed"
 		exit_installation 1 ""
+		return 1
 	fi
 }
 
@@ -177,7 +181,7 @@ install_tool() {
 		STEP="Production Installation"
 	else
 		echo "First positional argument must be STAGING or PRODUCTION.  Exiting"
-		continue
+		return 1
 	fi
 
 	# Make sure that shed-tools outcome variables are not set.
@@ -192,7 +196,7 @@ install_tool() {
 		rm $INSTALL_LOG;
 	fi
 	command="shed-tools install -g $URL -a $API_KEY -t $TOOL_FILE -v --log_file $INSTALL_LOG"
-	echo $command
+	echo "${command/$API_KEY/<API_KEY>}"
 	$command
 
 	# Capture the status (Installed/Skipped/Errored), name and revision hash from ephemeris output
@@ -232,17 +236,19 @@ install_tool() {
 			log_row $INSTALLATION_STATUS
 			exit_installation 1 ""
 			# TODO: Should files be moved elsewhere?
-			continue;
+			return 1;
 		else
 			if [ ! "$TOOL_NAME" = "$INSTALLED_NAME" ]; then
 				# Sanity check.  If these are not the same name, uninstall and abandon process with 'Script error'
 				python scripts/uninstall_tools.py -g $URL -a $API_KEY -n $INSTALLED_NAME;
 				log_row "Script Error"
 				exit_installation 1 ""
+				return 1
 			else
 				if [ "$SERVER" = "PRODUCTION" ]; then
 					log_row "Success"
 					exit_installation 0 ""
+					return 0
 				fi
 			fi
 			echo -e "\nSuccessfully installed $TOOL_NAME on $URL\n";
@@ -251,6 +257,7 @@ install_tool() {
 			# TODO what if this is production server?  wind back staging installation?
 			log_row "Script error"
 			exit_installation 1 "Could not verify installation from shed-tools output."
+			return 1
 	fi
 }
 
@@ -290,7 +297,7 @@ exit_installation() {
 		INSTALLED_TOOL_COUNTER=$((INSTALLED_TOOL_COUNTER+1))
 	fi
 	echo -e "\n$OUTCOME $TOOL_NAME." $MESSAGE
-	continue
+	# continue
 }
 
 install_tools
