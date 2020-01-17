@@ -76,10 +76,6 @@ install_tools() {
 
 		echo -e "\nStep (4): Testing $TOOL_NAME on production server";
 		test_tool "PRODUCTION" $TOOL_FILE
-
-		log_row "Success"
-		exit_installation 0 ""
-
 	done
 
 	# python scripts/split_tool_yml.py
@@ -155,7 +151,6 @@ test_tool() {
 		fi
 		log_row "Tests failed"
 		exit_installation 1 ""
-		continue
 	fi
 }
 
@@ -244,6 +239,11 @@ install_tool() {
 				python scripts/uninstall_tools.py -g $URL -a $API_KEY -n $INSTALLED_NAME;
 				log_row "Script Error"
 				exit_installation 1 ""
+			else
+				if [ "$SERVER" = "PRODUCTION" ]; then
+					log_row "Success"
+					exit_installation 0 ""
+				fi
 			fi
 			echo -e "\nSuccessfully installed $TOOL_NAME on $URL\n";
 		fi
@@ -251,7 +251,6 @@ install_tool() {
 			# TODO what if this is production server?  wind back staging installation?
 			log_row "Script error"
 			exit_installation 1 "Could not verify installation from shed-tools output."
-			continue;
 	fi
 }
 
