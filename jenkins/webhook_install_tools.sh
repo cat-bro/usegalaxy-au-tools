@@ -101,7 +101,7 @@ install_tools() {
 			done
 		COMMIT_MESSAGE="Jenkins build $BUILD_NUMBER."
 		git status
-		git commit -a -m $COMMIT_MESSAGE
+		git commit -a -m "$COMMIT_MESSAGE"
 		git push
 	fi
 }
