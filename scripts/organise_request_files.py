@@ -5,7 +5,7 @@ import argparse
 def main():
     VERSION = 'development'
 
-    parser = argparse.ArgumentParser(description='Turn arbitrarily many tool yml files into one per tool revision')
+    parser = argparse.ArgumentParser(description='Rewrite arbitrarily many tool yml files as one file per tool revision')
     parser.add_argument('-o', '--output_path', help='Output file path')
     parser.add_argument('-f', '--files', help='Tool input files', nargs='+')
 
@@ -27,7 +27,7 @@ def main():
         if 'revisions' in tool.keys() and len(tool['revisions']) > 1:
             tool_revisions = []
             for rev in tool['revisions']:
-                new_tool = tool  # dereferenced, surely?  Make sure
+                new_tool = tool
                 new_tool['revisions'] = [rev]
                 write_output_file(path=path, tool=new_tool)
         else:

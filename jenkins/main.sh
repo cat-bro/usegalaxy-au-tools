@@ -1,31 +1,46 @@
 #! /bin/bash
-
 chmod +x jenkins/webhook_install_tools.sh
 
-export BUILD_NUMBER="$BUILD_NUMBER"
 export GIT_COMMIT="$GIT_COMMIT"
 export GIT_PREVIOUS_COMMIT="$GIT_PREVIOUS_COMMIT"
 export BUILD_NUMBER="$BUILD_NUMBER"
-
 export INSTALL_ID="$(date '+%Y%m%d%H%M%S')" # this will do for now, could incorporate jenkins build ID or git commit hash
+export LOG_DIR=~/galaxy_tool_automation
 
-# export LOG_DIR=~/galaxy_tool_automation
+# Switch to allow the script to be run locally or remotely at stages of development
+# if RUN_LOCALLY is true, the script will only run where an .env file is present
+RUN_LOCALLY=1 # (1) Disable script on jenkins (0) run script on jenkins
+export LOCAL_ENV=0
+RUN=1 # true=1, false=0
+FILE=.env
+if [ -f "$FILE" ]; then
+		export LOCAL_ENV=1
+		export LOG_DIR=logs
+		export $(cat .env)
+		GIT_PREVIOUS_COMMIT=HEAD~1
+		GIT_COMMIT=HEAD
+		if [ $@ ]; then
+			# Allow filename to be provided as argument if running locally
+			export SUPPLIED_FILENAME=$@;
+		fi
+    echo 'Script running in local enviroment';
+else
+		echo 'Script running on jenkins server';
+		if [ $RUN_LOCALLY = 1 ]; then
+				echo 'Skipping installation as RUN_LOCALLY is set to 1 (true)';
+				RUN=0;
+		fi
+fi
+
 if [ ! -d LOG_DIR ]; then
 	mkdir $LOG_DIR
 fi
 export LOG_FILE="$LOG_DIR/webhook_tool_installation_$INSTALL_ID"
 
-install_tools() {
-	# echo 'GIT DIFF'
-	# git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only
-
-	# First check whether changed files are in the path of tool requests.
-	# If so, we run the install script.  If not, exit 1.
-	# export CHANGED_FILES=$(git diff $GIT_PREVIOUS_COMMIT $GIT_COMMIT --name-only | cat)
+jenkins_tool_installation() {
+	# First check whether changed files are in the path of tool requests, that is within the requests folder but not within
+	# any subfolders of requests.  If so, we run the install script.  If not we exit.
 	export REQUESTS_DIFF=$(git diff --name-only --diff-filter=A $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep "^requests\/[^\/]*$")
-
-	#echo 'Changes have been made to the following files:'
-	#echo $CHANGED_FILES
 
 	if [ ! $REQUESTS_DIFF ]; then
 		if [ $LOCAL_ENV = 1 ] && [ $SUPPLIED_FILENAME ]; then # if running locally, allow a filename argument
@@ -40,49 +55,16 @@ install_tools() {
 		echo $REQUESTS_DIFF;
 	fi
 
-
-
 	echo Saving output to $LOG_FILE
 	if [ $LOCAL_ENV = 0 ]; then
 		bash jenkins/webhook_install_tools.sh &> $LOG_FILE
 		cat $LOG_FILE
 	else
+		# Do not save a log file when running locally
 		bash jenkins/webhook_install_tools.sh
 	fi
 }
 
-# Switch to allow the script to be run locally or remotely at stages of development
-# if RUN_LOCALLY is true, the script will only run where an .env file is present
-RUN_LOCALLY=1 # (1) Disable script on jenkins (0) run script on jenkins
-export LOCAL_ENV=0
-RUN=1 # true=1, false=0
-FILE=.env
-if [ -f "$FILE" ]; then
-		export LOCAL_ENV=1
-    echo 'Script running in local enviroment';
-else
-		echo 'Script running on jenkins server';
-		if [ $RUN_LOCALLY = 1 ]; then
-				echo 'Skipping as RUN_LOCALLY is set to 1 (true)';
-				RUN=0;
-		fi
-fi
-
-export LOG_DIR=~/galaxy_tool_automation
-if [ $LOCAL_ENV = 1 ]; then
-	export LOG_DIR=logs
-	export $(cat .env)
-	GIT_PREVIOUS_COMMIT=HEAD~1
-	GIT_COMMIT=HEAD
-fi
-
-if [ $LOCAL_ENV = 1 ]; then # if running locally, allow a filename argument
-	echo $@
-	if [ $@ ]; then
-		export SUPPLIED_FILENAME=$@;
-	fi
-fi
-
 if [ $RUN = 1 ]; then
-	install_tools
+	jenkins_tool_installation
 fi
