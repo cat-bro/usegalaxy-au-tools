@@ -50,6 +50,7 @@ install_tools() {
 
 	# get out of detached head state in github repo
 	git checkout master
+	git pull
 
 	prepare_tool_files
 	# export TMP=tmp/$INSTALL_ID/
