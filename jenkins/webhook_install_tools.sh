@@ -48,6 +48,8 @@ install_tools() {
 		mkdir tmp;
 	fi
 
+	# get out of detached head state in github repo
+	git checkout master
 
 	prepare_tool_files
 	# export TMP=tmp/$INSTALL_ID/
@@ -93,7 +95,6 @@ install_tools() {
 		echo -e $LOG_ENTRY >> $AUTOMATED_TOOL_INSTALLATION_LOG;
 
 		# Push changes to github
-		git checkout master
 		for FILE_NAME in $(ls $TOOL_FILE_PATH)
 		 	do
 				git add $TOOL_FILE_PATH$FILE_NAME
