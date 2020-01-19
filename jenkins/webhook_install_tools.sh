@@ -91,6 +91,9 @@ install_tools() {
 		echo -e $LOG_ENTRY
 		echo "=================================================="
 		echo -e $LOG_ENTRY >> $AUTOMATED_TOOL_INSTALLATION_LOG;
+
+		# Push changes to github
+		git checkout master
 		for FILE_NAME in $(ls $TOOL_FILE_PATH)
 		 	do
 				git add $TOOL_FILE_PATH$FILE_NAME
@@ -103,6 +106,8 @@ install_tools() {
 		git status
 		git commit -a -m "$COMMIT_MESSAGE"
 		git push
+
+
 	fi
 }
 
@@ -142,6 +147,12 @@ test_tool() {
 			echo "WARNING: There are no tests for $TOOL_NAME at revision $INSTALLED_REVISION.  Proceeding as none have failed.";
 		else
 			echo "All tests have passed for $TOOL_NAME at revision $INSTALLED_REVISION on $URL.";
+		fi
+		if [ "$SERVER" = "PRODUCTION" ]; then
+			log_row "Success"
+			exit_installation 0 ""
+			return 0
+			echo -e "\nSuccessfully installed $TOOL_NAME on $URL\n";
 		fi
 	else
 		echo "Failed to install: Winding back installation as some tests have failed.";
@@ -244,14 +255,7 @@ install_tool() {
 				log_row "Script Error"
 				exit_installation 1 ""
 				return 1
-			else
-				if [ "$SERVER" = "PRODUCTION" ]; then
-					log_row "Success"
-					exit_installation 0 ""
-					return 0
-				fi
 			fi
-			echo -e "\nSuccessfully installed $TOOL_NAME on $URL\n";
 		fi
 		else
 			# TODO what if this is production server?  wind back staging installation?
