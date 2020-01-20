@@ -16,20 +16,20 @@ echo 'TRAVIS_BRANCH'
 echo $TRAVIS_BRANCH
 echo 'TRAVIS_PULL_REQUEST_BRANCH'
 echo $TRAVIS_PULL_REQUEST_BRANCH
-CHANGED_FILES=$(git diff --name-only $TRAVIS_PULL_REQUEST_BRANCH $TRAVIS_BRANCH)
+# CHANGED_FILES=$(git diff --name-only $TRAVIS_PULL_REQUEST_BRANCH $TRAVIS_BRANCH)
+# echo ________________
+# echo "git diff --name-only $TRAVIS_PULL_REQUEST_BRANCH $TRAVIS_BRANCH"
+# echo $CHANGED_FILES
+# echo ________________
+CHANGED_FILES=$(git diff --diff-filter=A --name-only $TRAVIS_BRANCH | cat)
 echo ________________
-echo "git diff --name-only $TRAVIS_PULL_REQUEST_BRANCH $TRAVIS_BRANCH"
+echo "git diff --name-only --diff-filter=A $TRAVIS_BRANCH"
 echo $CHANGED_FILES
 echo ________________
-CHANGED_FILES=$(git diff --name-only $TRAVIS_BRANCH)
-echo ________________
-echo "git diff --name-only $TRAVIS_BRANCH"
-echo $CHANGED_FILES
-echo ________________
-REQUEST_FILES=$($CHANGED_FILES | grep "^requests\/[^\/]*$")
-JENKINS_CONTROLLED_FILES=$($CHANGED_FILES | grep "^(?:\$STAGING_DIR\/|PRODUCTION_DIR\/).*/")
+REQUEST_FILES=$(echo $CHANGED_FILES | grep "^requests\/[^\/]*$")
+JENKINS_CONTROLLED_FILES=$(echo $CHANGED_FILES | grep "^(?:\$STAGING_DIR\/|PRODUCTION_DIR\/).*/")
 # $JENKINS_CONTROLLED_FILES=$($CHANGED_FILES | grep "^requests\/[^\/]*$")
-$(cat $CHANGED_FILES | grep "^requests\/[^\/]*$")
+# $(cat $CHANGED_FILES | grep "^requests\/[^\/]*$")
 
 if [ $JENKINS_CONTROLLED_FILES ]; then
   echo 'Files within $PRODUCTION_DIR or $STAGING_DIR are written by Jenkins and cannot be altered';
