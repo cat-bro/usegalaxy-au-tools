@@ -42,4 +42,4 @@ if [ ! $REQUEST_FILES ]; then
 fi
 
 # pass the requests file paths to a python script that checks the yml
-python scripts/travis_check_files.py --valid-yaml -f $(tr '\n' ' ' < $REQUESTS_DIFF)
+python scripts/travis_check_files.py -f $(tr '\n' ' ' < $REQUEST_FILES)
