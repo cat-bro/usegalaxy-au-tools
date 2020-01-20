@@ -112,3 +112,4 @@ Jenkins Build Number	Install ID	Log Path	Status	Failing Step	Name
 210	20200120015336	/var/lib/jenkins/galaxy_tool_automation/webhook_tool_installation_20200120015336	Errored	Staging Installation	row_means
 214	20200120021641	/var/lib/jenkins/galaxy_tool_automation/webhook_tool_installation_20200120021641	Tests failed	Staging Testing	correlation
 215	20200120021755	/var/lib/jenkins/galaxy_tool_automation/webhook_tool_installation_20200120021755	Tests failed	Staging Testing	compute_motif_frequencies_for_all_motifs
+216	20200120023251	/var/lib/jenkins/galaxy_tool_automation/webhook_tool_installation_20200120023251	Success	Production Testing	compute_motifs_frequency
