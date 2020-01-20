@@ -21,7 +21,7 @@ echo $TRAVIS_PULL_REQUEST_BRANCH
 # echo "git diff --name-only $TRAVIS_PULL_REQUEST_BRANCH $TRAVIS_BRANCH"
 # echo $CHANGED_FILES
 # echo ________________
-CHANGED_FILES=$(git diff --diff-filter=A --name-only $TRAVIS_BRANCH | cat)
+CHANGED_FILES=$(git diff --diff-filter=A --name-only $TRAVIS_BRANCH)
 echo ________________
 echo "git diff --name-only --diff-filter=A $TRAVIS_BRANCH"
 echo $CHANGED_FILES
