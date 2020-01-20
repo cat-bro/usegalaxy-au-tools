@@ -27,7 +27,7 @@ for file in files:
         # Check that yaml loads first
         loaded_yml = yaml.safe_load(file_in.read()) # might throw exception here
         loaded_files.append({
-            'yaml': yaml.safe_load(file_in.read())), #############
+            'yaml': loaded_yml,
             'filename': file,
         }
 
