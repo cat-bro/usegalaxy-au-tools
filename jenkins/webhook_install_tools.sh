@@ -107,7 +107,7 @@ install_tools() {
 		COMMIT_MESSAGE="Jenkins build $BUILD_NUMBER."
 		git config --local user.name "jenkins-bro"
 		git config --local user.email "cjbromhead@gmail.com"
-		git config --local user.password "$jenkins-bro_github_password"
+		git config --local user.password "$jenkins_github_password"
 		git config --local -l
 		git commit -a -m "$COMMIT_MESSAGE"
 		git push
