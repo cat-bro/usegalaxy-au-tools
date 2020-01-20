@@ -1,5 +1,6 @@
 import argparse
 import yaml
+import sys
 
 parser = argparse.ArgumentParser(description="Uninstall tool from a galaxy instance")
 parser.add_argument('-f', '--files', help='Tool input files', nargs='+')
@@ -32,7 +33,7 @@ for file in files:
         })
 
 for loaded_file in loaded_files:
-    sys.stderr.write('Checking %s ... ', loaded_file['filename'])
+    sys.stderr.write('Checking %s ... ' % loaded_file['filename'])
     if not 'tools' in loaded_file['yaml'].keys():
         system.out.write('ERROR\n')
         raise Exception('Expecting .yml file with \'tools\'. Check requests/template/template.yml for an example.')
@@ -46,3 +47,4 @@ for loaded_file in loaded_files:
             except KeyError:
                 system.out.write('ERROR\n')
                 raise Exception('All tool list entries must have \'%s\' specified. Check requests/template/template.yml for an example.' % key)
+    sys.stderr.write('OK\n')
