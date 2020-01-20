@@ -1,5 +1,6 @@
 language: python
 script: scripts/travis.sh
+build_pushes: false
 notifications:
   email: false
 # before_install:
