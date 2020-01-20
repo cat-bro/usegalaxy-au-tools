@@ -49,6 +49,8 @@ install_tools() {
 	fi
 
 	# get out of detached head state in github repo
+	eval `ssh-agent`
+	ssh-add ~/.ssh/github_catbro_au_tools.rsa  # encrypt this?
 	git checkout master
 	git pull
 
@@ -105,10 +107,10 @@ install_tools() {
 				git rm $FILE_NAME
 			done
 		COMMIT_MESSAGE="Jenkins build $BUILD_NUMBER."
-		git config --local user.name "jenkins-bro"
-		git config --local user.email "cjbromhead@gmail.com"
-		git config --local user.password "$jenkins_github_password"
-		git config --local -l
+		# git config --local user.name "jenkins-bro"
+		# git config --local user.email "cjbromhead@gmail.com"
+		# git config --local user.password "$jenkins_github_password"
+		# git config --local -l
 		git commit -a -m "$COMMIT_MESSAGE"
 		git push
 
