@@ -1,0 +1,5 @@
+tools:
+- name: plot_from_lda
+  owner: devteam
+  tool_panel_section_label: Statistics
+  tool_shed_url: toolshed.g2.bx.psu.edu

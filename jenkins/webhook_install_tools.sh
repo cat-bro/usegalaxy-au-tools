@@ -49,6 +49,7 @@ install_tools() {
 	fi
 
 	# get out of detached head state in github repo
+	git remote set-url origin git@github.com:cat-bro/usegalaxy-au-tools.git
 	eval `ssh-agent`
 	ssh-add ~/.ssh/github_catbro_au_tools.rsa  # encrypt this?
 	git checkout master
