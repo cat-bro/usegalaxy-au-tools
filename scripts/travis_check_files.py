@@ -35,7 +35,7 @@ for loaded_file in loaded_files:
     sys.stderr.write('Checking %s ... ', loaded_file['filename'])
     if not 'tools' in loaded_file['yaml'].keys():
         system.out.write('ERROR\n')
-        raise Exception('Expecting .yml file with \'tools\'. Check requests/template/template.yml for an example'.)
+        raise Exception('Expecting .yml file with \'tools\'. Check requests/template/template.yml for an example.')
     tools = loaded_file['yaml']['tools']
     if not isinstance(tools, list):
         tools = [tools]
