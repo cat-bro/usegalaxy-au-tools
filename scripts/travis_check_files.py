@@ -29,7 +29,7 @@ for file in files:
         loaded_files.append({
             'yaml': loaded_yml,
             'filename': file,
-        }
+        })
 
 for loaded_file in loaded_files:
     sys.stderr.write('Checking %s ... ', loaded_file['filename'])
