@@ -48,10 +48,11 @@ install_tools() {
 		mkdir tmp;
 	fi
 
-	# get out of detached head state in github repo
+	# enable pushing to github.  there is almost certainly a better way to do this
 	git remote set-url origin git@github.com:cat-bro/usegalaxy-au-tools.git
 	eval `ssh-agent`
-	ssh-add ~/.ssh/github_catbro_au_tools.rsa  # encrypt this?
+	ssh-add ~/.ssh/github_catbro_au_tools.rsa
+	# make sure we are not in detached head state by checking out master
 	git checkout master
 	git pull
 
@@ -309,7 +310,6 @@ exit_installation() {
 		INSTALLED_TOOL_COUNTER=$((INSTALLED_TOOL_COUNTER+1))
 	fi
 	echo -e "\n$OUTCOME $TOOL_NAME." $MESSAGE
-	# continue
 }
 
 install_tools
