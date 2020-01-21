@@ -8,6 +8,10 @@ if [ ! $TRAVIS_PULL_REQUEST ] && [ ! "$@" = "local" ]; then
   exit 0;
 fi
 
+if [ "$@" = "local" ]; then
+  TRAVIS_BRANCH=master
+fi
+
 # check the range of the commit input_file_paths
 echo "TRAVIS_BRANCH: $TRAVIS_BRANCH"
 echo "TRAVIS_PULL_REQUEST_BRANCH: $TRAVIS_PULL_REQUEST_BRANCH"
@@ -35,4 +39,4 @@ if [ ! -f $REQUESTS_FILES ]; then
 fi
 
 # pass the requests file paths to a python script that checks the yml
-python .travis/travis_check_files.py -f $FILE_ARGS
+python .travis/check_files.py -f $FILE_ARGS

@@ -2,7 +2,7 @@ import argparse
 import yaml
 import sys
 
-from bioblend import ConnectionError
+# from bioblend import ConnectionError
 from bioblend.galaxy import GalaxyInstance
 from bioblend.galaxy.tools import ToolClient
 from bioblend.galaxy.toolshed import ToolShedClient
@@ -115,17 +115,19 @@ def check_installable(tools):
     for tool in tool_list:
         if tool['tool_shed_url'] in tools_by_shed.keys():
             tools_by_shed[tool['tool_shed_url']].append(tool)
-        else
+        else:
             tools_by_shed[tool['tool_shed_url']] = [tool]
 
     requested_tools = []
     for shed in tools_by_shed.keys():
-        toolshed = ToolShedInstance(url='https://%s' % shed)
+        url = 'https://%s' % shed
+        toolshed = ToolShedInstance(url=url)
         repo_client = ToolShedRepositoryClient(toolshed)
 
         for tool in tools_by_shed['shed']:
             try:
                 installable_revisions = repo_client.get_ordered_installable_revisions(tool['name'], tool['owner'])
+                sys.stderr.write('Connected to toolshed %s' % url)
                 installable_revisions = [str(r) for r in installable_revisions][::-1]  # un-unicode and list most recent first
                 # TODO make absolutely sure that the ordering is now correct
                 if not installable_revisions:
@@ -139,18 +141,18 @@ def check_installable(tools):
 
             if tool['revisions']:  # Check that requested revisions are installable
                 for revision in revisions:
-                        if not revision in installable_revisions:
-                            errors.append('% revision %s is not installable' % (tool['name'], revision))
+                    if not revision in installable_revisions:
+                        errors.append('% revision %s is not installable' % (tool['name'], revision))
                     # We can raise an exception here if revision is not installable
-                    if shed_status = 'online':
+                    if shed_status == 'online':
                         # CHECK REVISION AGAINST installable_revisions
-                    tool_revision = tool
-                    tool_revision.update({'revision_request_type': 'specific', 'shed_status': shed_status})
-                    tool_revision['revisions'] = [revision]
-                    requested_tools.append(tool_revision)
+                        tool_revision = tool
+                        tool_revision.update({'revision_request_type': 'specific', 'shed_status': shed_status})
+                        tool_revision['revisions'] = [revision]
+                        requested_tools.append(tool_revision)
             else:
                 requested_tool = tool
-                if shed_status = 'online':
+                if shed_status == 'online':
                     requested_tool.update({'revisions': [installable_revisions[0]]})
                 requested_tool.update({'revision_request_type': 'latest', 'shed_status': shed_status})
                 requested_tools.append(requested_tool)
@@ -159,27 +161,30 @@ staging_galaxy_instance = GalaxyInstance(url=staging_url, key=staging_api_key)
 production_galaxy_instance = GalaxyInstance(url=production_url, key=production_api_key)
 
 
-def check_tools_against_panel(galaxy_url, galaxy_api_key, tools):
-    galaxy_instance = GalaxyInstance(url=galaxy_url, key=galaxy_api_key)
-    tool_client = ToolClient(galaxy_instance)
-    panel = tool_client.get_tool_panel()
-    requested_tools = flatten_tool_list(tools)
+# def check_tools_against_panel(galaxy_url, galaxy_api_key, tools):
+#     galaxy_instance = GalaxyInstance(url=galaxy_url, key=galaxy_api_key)
+#     tool_client = ToolClient(galaxy_instance)
+#     panel = tool_client.get_tool_panel()
+#     requested_tools = flatten_tool_list(tools)
+#
+#     errors = []
+#     # the tool panel returned is a list of sections.
+#     # each section is a dict, dict['elems'] is a list of installed tools
+#     for section in panel:
+#         for elem in section['elems']
+#             if 'tool_shed_repository' in elem.keys():
+#                 repo = elem['tool_shed_repository']
+#                 # tool is installed if 'name', 'owner' and 'revision' all match
+#                 matching_tools = [tool for tool in requested_tools if tool['shed_status'] == 'online' and
+#                     (tool['name'], tool['owner'], tool['revisions'][0], tool['tool_shed_url']) ==
+#                     (repo['name'], repo['owner'], repo['changeset_revision'], repo['tool_shed'])
+#                 ]
+#                 if matching_tools:
+#                     errors.append(
+#                         'Tool with name: %s, owner %s, revision %s, tool_shed_url %s is already installed on %s' %
+#                         (tool['name'], tool['owner'], tool['revisions'][0], tool['tool_shed_url'], galaxy_url)
+#                     )
+#     return errors
 
-    errors = []
-    # the tool panel returned is a list of sections.
-    # each section is a dict, dict['elems'] is a list of installed tools
-    for section in panel:
-        for elem in section['elems']
-            if 'tool_shed_repository' in elem.keys():
-                repo = elem['tool_shed_repository']
-                # tool is installed if 'name', 'owner' and 'revision' all match
-                matching_tools = [tool for tool in requested_tools if tool['shed_status'] == 'online' and
-                    (tool['name'], tool['owner'], tool['revisions'][0], tool['tool_shed_url']) ==
-                    (repo['name'], repo['owner'], repo['changeset_revision'], repo['tool_shed'])
-                ]
-                if matching_tools:
-                    errors.append(
-                        'Tool with name: %s, owner %s, revision %s, tool_shed_url %s is already installed on %s' %
-                        (tool['name'], tool['owner'], tool['revisions'][0], tool['tool_shed_url'], galaxy_url)
-                    )
-    return errors
+
+if __name__ == "__main__": main()
