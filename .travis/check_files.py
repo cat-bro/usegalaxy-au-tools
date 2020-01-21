@@ -12,13 +12,12 @@ parser.add_argument('-f', '--files', help='Tool input files', nargs='+')
 args = parser.parse_args()
 files = args.files
 
+
 mandatory_keys = [
     'name', 'tool_panel_section_label', 'tool_shed_url', 'owner'
 ]
-
 allowed_keys = ['revisions', 'ignore_test_errors']
-
-forbidden_keys = ['tool_panel_section_id']  # this is unnecessary if we have allowed_keys check
+forbidden_keys = ['tool_panel_section_id']
 
 
 loaded_files = []
