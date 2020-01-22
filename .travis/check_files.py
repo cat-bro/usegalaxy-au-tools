@@ -169,6 +169,7 @@ def check_tools_against_panel(galaxy_url, galaxy_api_key, tools):
                     (repo['name'], repo['owner'], str(repo['changeset_revision']), repo['tool_shed'])
                 ]
                 if matching_tools:
+                    tool = matching_tools[0]
                     errors.append(
                         'Tool with name: %s, owner: %s, revision: %s, tool_shed_url: %s is already installed on %s' %
                         (tool['name'], tool['owner'], tool['revisions'][0], tool['tool_shed_url'], galaxy_url)
