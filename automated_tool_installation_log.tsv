@@ -1199,3 +1199,4 @@ Install	462	15/09/20 16:52:10	2d_split_binaryimage_by_watershed	False	Already In
 Install	1011	22/09/20 08:40:03	openms_idmapper	True	Tests failed	galaxyp	138a734e21a1	latest	Staging Testing	0/5		Proteomics	toolshed.g2.bx.psu.edu	/var/lib/jenkins/galaxy_tool_automation/install_build_1011/install_log.txt
 Install	1014	22/09/20 08:59:14	openms_idmapper	True	Tests failed	galaxyp	138a734e21a1	latest	Staging Testing	0/5		Proteomics	toolshed.g2.bx.psu.edu	/var/lib/jenkins/galaxy_tool_automation/install_build_1014/install_log.txt
 Install	1017	22/09/20 09:20:16	openms_idmapper	True	Tests failed	galaxyp	138a734e21a1	latest	Staging Testing	0/5		Proteomics	toolshed.g2.bx.psu.edu	/var/lib/jenkins/galaxy_tool_automation/install_build_1017/install_log.txt
+Install	1020	22/09/20 09:35:20	openms_idmapper	True	Tests failed	galaxyp	138a734e21a1	latest	Staging Testing	0/5		Proteomics	toolshed.g2.bx.psu.edu	/var/lib/jenkins/galaxy_tool_automation/install_build_1020/install_log.txt
