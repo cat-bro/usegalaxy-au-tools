@@ -80,7 +80,10 @@ def main():
         print('%d tools with updates available' % len(tools))
 
     if args.skip_list:
-        skip_list = [line.strip().split()[0] for line in skip_list.readlines() if line.strip()]
+        with open(args.skip_list) as handle:
+            skip_list = [line.strip().split()[0] for line in handle.readlines() if line.strip()]
+    else:
+        skip_list = None
 
     for tool in tools:
         if 'revisions' in tool.keys() and len(tool['revisions']) > 1:
