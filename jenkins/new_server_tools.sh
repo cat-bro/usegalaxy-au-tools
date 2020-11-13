@@ -60,7 +60,7 @@ for TOOL_FILE in $TOOL_FILE_PATH/*; do
   INSTALL_LOG=${FILES_DIR}/${TOOL_NAME}@${REQUESTED_REVISION}_install_log.txt
 
   # Ping galaxy url and toolshed url
-  echo -e "\n\[$(env TZ="Australia/Queensland" date "+%d/%m/%y %H:%M:%S")\]"
+  echo -e "\n[$(env TZ="Australia/Queensland" date "+%d/%m/%y %H:%M:%S")]"
   echo "Waiting for $URL";
   galaxy-wait -g $URL
   echo "Waiting for https://${TOOL_SHED_URL}";
@@ -112,7 +112,7 @@ cat $LOCAL_INSTALL_TSV | while read line || [[ -n $line ]]; do
   unset TESTS_PASSED; # ensure these values do not carry over from previous iterations of the loop
 
   # Ping galaxy url
-  echo -e "\n\[$(env TZ="Australia/Queensland" date "+%d/%m/%y %H:%M:%S")\]"
+  echo -e "\n[$(env TZ="Australia/Queensland" date "+%d/%m/%y %H:%M:%S")]"
   echo "Waiting for $URL";
   galaxy-wait -g $URL
 
