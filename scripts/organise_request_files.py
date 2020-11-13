@@ -88,7 +88,7 @@ def main():
     print(skip_list)
 
     for tool in tools:
-        if 'revisions' in tool.keys() and len(tool['revisions']) > 1:
+        if 'revisions' in tool.keys():
             for rev in tool['revisions']:
                 new_tool = tool
                 new_tool['revisions'] = [rev]
