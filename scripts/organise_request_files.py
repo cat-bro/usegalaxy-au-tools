@@ -84,12 +84,16 @@ def main():
             skip_list = [line.strip().split()[0] for line in handle.readlines() if line.strip()]
     else:
         skip_list = None
+    print('\nSKIP LIST!')
+    print(skip_list)
 
     for tool in tools:
         if 'revisions' in tool.keys() and len(tool['revisions']) > 1:
             for rev in tool['revisions']:
                 new_tool = tool
                 new_tool['revisions'] = [rev]
+                print('%s@%s' % (new_tool['name'], new_tool['revisions']))
+                print(not skip_list or ['%s@%s' % (new_tool['name'], new_tool['revisions']) not in skip_list])
                 if not skip_list or ['%s@%s' % (new_tool['name'], new_tool['revisions']) not in skip_list]:
                     write_output_file(path=path, tool=new_tool)
         else:
