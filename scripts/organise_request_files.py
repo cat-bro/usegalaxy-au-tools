@@ -119,7 +119,7 @@ def get_new_revision(tool, repos, trusted_owners):
         return
 
     skip_this_tool = latest_revision in skipped_revisions
-    installed = latest_revision in [r['changeset_revision'] for r in matching_repos]
+    installed = latest_revision in [r['installed_changeset_revision'] for r in matching_repos]
     if skip_this_tool or installed:
         return
 
@@ -133,7 +133,7 @@ def get_new_revision(tool, repos, trusted_owners):
             print('Skipping %s.  Error querying tool revisions: %s' % (tool['name'], str(e)))
 
     latest_revision_version = get_version(latest_revision)
-    installed_versions = [get_version(r['changeset_revision']) for r in matching_repos]
+    installed_versions = [get_version(r['installed_changeset_revision']) for r in matching_repos]
     if latest_revision_version is None or None in installed_versions:  # skip on errors from get_version
         return
     version_update = latest_revision_version in installed_versions
