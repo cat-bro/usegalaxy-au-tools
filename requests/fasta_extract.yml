@@ -1,0 +1,4 @@
+tools:
+- name: fasta_extract
+  owner: simon-gladman
+  tool_panel_section_label: FASTA/FASTQ
